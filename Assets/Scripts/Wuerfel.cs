@@ -1,10 +1,23 @@
 using UnityEngine;
-using UnityEngine.Categorization;
+using System.Collections.Generic;
 
 public class Wuerfel : MonoBehaviour
 {
+    public GameObject wuerfelPrefab;
+    List<GameObject> wuerfelListe;
+    Rigidbody rb;
+    bool ende = false;
+    public Material[] mat = new Material[4];
+
+    void Start()
+    {
+        wuerfelListe = new List<GameObject>();
+        rb = GetComponent<Rigidbody>();
+    }
+
     void Update()
     {
+        if (ende) return;
         float xNeu = transform.position.x;
         float zNeu = transform.position.z;
 
@@ -31,5 +44,28 @@ public class Wuerfel : MonoBehaviour
         }
 
         transform.position = new Vector3(xNeu, transform.position.y, zNeu);
+    }
+
+    void OnCollisionEnter(Collision coll)
+    {
+        Vector3 positionAlt = transform.position;
+        if (positionAlt.y < 4)
+        {
+            Material materialAlt = GetComponent<MeshRenderer>().material;
+            GetComponent<MeshRenderer>().material = mat[Random.Range(0, 4)];
+
+            transform.position = new Vector3(0, 6, 0);
+            rb.linearDamping *= 0.98f;
+
+            Object objektVerweis = Instantiate(wuerfelPrefab, positionAlt, Quaternion.identity);
+
+            GameObject spielObjektVerweis = (GameObject)objektVerweis;
+            spielObjektVerweis.GetComponent<MeshRenderer>().material = materialAlt;
+            wuerfelListe.Add(spielObjektVerweis);
+        }
+        else
+        {
+            ende = true;
+        }
     }
 }
