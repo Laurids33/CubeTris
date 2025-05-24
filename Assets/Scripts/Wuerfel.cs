@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 using System.Collections.Generic;
 
 public class Wuerfel : MonoBehaviour
@@ -8,6 +9,9 @@ public class Wuerfel : MonoBehaviour
     Rigidbody rb;
     bool ende = false;
     public Material[] mat = new Material[4];
+
+    int punkte = 0;
+    public TextMeshProUGUI punkteAnzeige;
 
     void Start()
     {
@@ -62,10 +66,39 @@ public class Wuerfel : MonoBehaviour
             GameObject spielObjektVerweis = (GameObject)objektVerweis;
             spielObjektVerweis.GetComponent<MeshRenderer>().material = materialAlt;
             wuerfelListe.Add(spielObjektVerweis);
+
+            Pruefen();
         }
         else
         {
             ende = true;
+        }
+    }
+
+    void Pruefen()
+    {
+        int zaehler = 0;
+        for (int k = 0; k < wuerfelListe.Count; k++)
+        {
+            if (wuerfelListe[k].transform.position.y >= -2.75f && wuerfelListe[k].transform.position.y <= -2.35f)
+            {
+                zaehler++;
+            }
+        }
+
+        if (zaehler == 25)
+        {
+            punkte++;
+            punkteAnzeige.text = "Punkte: " + punkte;
+
+            for (int k = wuerfelListe.Count - 1; k >= 0; k--)
+            {
+                if (wuerfelListe[k].transform.position.y >= -2.75f && wuerfelListe[k].transform.position.y <= -2.35f)
+                {
+                    Destroy(wuerfelListe[k]);
+                    wuerfelListe.RemoveAt(k);
+                }
+            }
         }
     }
 }

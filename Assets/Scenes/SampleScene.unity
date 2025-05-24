@@ -1294,6 +1294,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: ddf087a6785f3b0eea17d973fa634517, type: 2}
   - {fileID: 2100000, guid: e0277e3587752013cb7087c7292412e1, type: 2}
   - {fileID: 2100000, guid: 4accf8db9ff95ba12bcb41746ce900f6, type: 2}
+  punkteAnzeige: {fileID: 2092824238}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
